@@ -1,6 +1,6 @@
-package com.example.pointofsale;
+package domain;
 
-public class ProductCatalogActivity {
+public class SaleListItem {
 
 	/**
 	 * @param args
