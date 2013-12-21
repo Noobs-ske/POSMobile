@@ -43,7 +43,7 @@ public class AddActivity extends Activity {
 		txtResult = (EditText) findViewById(R.id.txtItemID);
 		
 		// Test
-//		final InventoryDB myDb = new InventoryDB( context,name, factory, version);
+		final InventoryDB myDb = new InventoryDB(this);
 	
 		final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 		final AlertDialog ad = adb.create();
@@ -63,17 +63,17 @@ public class AddActivity extends Activity {
 				
 //			if (confirm.checkSaveData(productID,productName,productQuan,productPrice)) 
 //			{
-//				myDb.InsertData(productID, productName, productQuan, productPrice, productDescription);
-//				
-//				Toast.makeText(AddActivity.this, "Add Data Successfully. ",
-//						Toast.LENGTH_SHORT).show();
-//				Intent newActivity = new Intent(AddActivity.this,InventoryActivity.class);
-//				startActivity(newActivity);
-//			}
-			//	else {ad.setMessage("Invalid. A field is missing or the Product ID is already in used."); ad.show();}
+				myDb.InsertData(productID, productName, productQuan, productPrice);
+				
+				Toast.makeText(AddActivity.this, "Add Data Successfully. ",
+						Toast.LENGTH_SHORT).show();
+				Intent newActivity = new Intent(AddActivity.this,InventoryActivity.class);
+				startActivity(newActivity);
+			}
+//				else {ad.setMessage("Invalid. A field is missing or the Product ID is already in used."); ad.show();}
 
 			}
-		}
+//		}
 	);
 
 		// btnCancel (Cancel)
@@ -137,15 +137,17 @@ public class AddActivity extends Activity {
 		}
 
 		// btnSave (Save)
-		/*
-		 * final Button save = (Button) findViewById(R.id.btnSave);
-		 * save.setOnClickListener(new View.OnClickListener() { public void
-		 * onClick(View v) {
-		 * 
-		 * // If Save Complete if (SaveData()) { // Open Form Main Intent
-		 * newActivity = new Intent(AddScreen.this, InventoryScreen.class);
-		 * startActivity(newActivity); } } });
-		 */
+		
+//		  final Button save = (Button) findViewById(R.id.btnSave);
+//		  save.setOnClickListener(new View.OnClickListener() { 
+//			  public void  onClick(View v) {
+//		  
+//		  // If Save Complete 
+//			  if (SaveData()) {
+//			  // Open Form Main
+//				  Intent newActivity = new Intent(AddActivity.this, InventoryActivity.class);
+//		  startActivity(newActivity); } } });
+		 
 
 		// btnCancel (Cancel)
 		final Button cancel = (Button) findViewById(R.id.btnCancel);

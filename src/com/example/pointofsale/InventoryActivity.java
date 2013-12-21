@@ -3,6 +3,8 @@ package com.example.pointofsale;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.InventoryDB;
+
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -24,8 +26,6 @@ import android.widget.Toast;
 public class InventoryActivity extends Activity {
 	ArrayList<HashMap<String, String>> ItemList;
 	ArrayList<String> PurchaseList = new ArrayList<String>();
-	private int PurchaseQuantity = 0;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class InventoryActivity extends Activity {
 		setContentView(R.layout.activity_inventory);
 		
 		// Call Show List All Data
-		ShowListData();
+	     ShowListData();
 		
 	
 		// Button2(CatalogButton)
@@ -43,7 +43,7 @@ public class InventoryActivity extends Activity {
 			public void onClick(View v) {
 
 				Intent newActivity = new Intent(InventoryActivity.this,
-						SaleActivity.class);
+						ProductCatalogActivity.class);
 
 			
 				  newActivity.putStringArrayListExtra("PurchaseList",PurchaseList); 
@@ -120,6 +120,7 @@ public class InventoryActivity extends Activity {
 		final String MemQuantity = ItemList.get(info.position).get("Quantity").toString();
 		final String MemPrice = ItemList.get(info.position).get("Price").toString();
 		
+		
 
 		if ("Edit".equals(CmdName)) {
 
@@ -155,7 +156,7 @@ public class InventoryActivity extends Activity {
 	public void ShowListData() {
 		final InventoryDB myDb = new InventoryDB(this);
 		ItemList = myDb.SelectAllData();
-
+		
 		// listView1
 		ListView lisView1 = (ListView) findViewById(R.id.listView1);
 
@@ -164,8 +165,10 @@ public class InventoryActivity extends Activity {
 				R.layout.activity_column, new String[] { "ItemID", "Name",
 						"Quantity", "Price" }, new int[] { R.id.ColItemID,
 						R.id.ColName, R.id.ColQuantity, R.id.TotalPrice });
+		
+		System.out.println(ItemList.get(0));
 		lisView1.setAdapter(sAdap);
-		registerForContextMenu(lisView1);
+//		registerForContextMenu(lisView1);
 	}
 	
 }

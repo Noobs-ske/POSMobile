@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 
 
+import dao.InventoryDB;
 import dao.SaleReportDB;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -92,11 +93,11 @@ public class SaleActivity extends Activity {
 		InventoryDB myDb = new InventoryDB(this);
 		for (int i = 0; i < SaleList.size(); i++) {
 			String arrDataDB[] = myDb.SelectData(SaleList.get(i));
-			String arrDataSale[] = myDb.SelectData2(SaleList.get(i));
+			String arrDataSale[] = myDb.SelectData(SaleList.get(i));
 			saveTime(arrDataDB[1], arrDataDB[2], arrDataSale[2], "99");
 			myDb.reduceQuantity(arrDataDB[0] ,arrDataDB[1] , Integer.parseInt(arrDataDB[2]) 
 				 , Integer.parseInt(arrDataSale[2]), arrDataDB[3]);
-			myDb.DeleteData2(SaleList.get(i));
+			myDb.DeleteData(SaleList.get(i));
 		}
 		SaleList = null;
 
@@ -110,7 +111,7 @@ public class SaleActivity extends Activity {
 
 		InventoryDB myDb = new InventoryDB(this);
 		for (int i = 0; i < SaleList.size(); i++) {
-			String arrData[] = myDb.SelectData2(SaleList.get(i));
+			String arrData[] = myDb.SelectData(SaleList.get(i));
 			map = new HashMap<String, String>();
 			map.put("ItemID2", arrData[0]);
 			map.put("Name", arrData[1]);

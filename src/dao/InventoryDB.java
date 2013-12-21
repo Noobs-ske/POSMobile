@@ -1,64 +1,71 @@
 package dao;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+
 public class InventoryDB extends SQLiteOpenHelper {
 
-	public static final String TABLE_INVENTORY = "inventory";
+	// Database Version
 	private static final int DATABASE_VERSION = 13;
-	public static final String COLUMN_PRODUCTID = "productid";
-	public static final String COLUMN_PRODUCTNAME = "productname";
-	public static final String COLUMN_PRODUCTQUAN = "productquan";
-	public static final String COLUMN_PRODUCTPRICE = "productprice";
-	private static final String DATABASE_NAME = "inventorydb";
-	
-	//Creation statement
-	private static final String DATABASE_CREATE = 
-			"create table " + TABLE_INVENTORY + "(" 
-					+ COLUMN_PRODUCTID + "INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ COLUMN_PRODUCTNAME + "TEXT,"
-					+ COLUMN_PRODUCTQUAN + "INTEGER,"
-					+ COLUMN_PRODUCTPRICE + "DOUBLE);" ;
-	
-	public InventoryDB(Context context, String name, CursorFactory factory, int version) {
+
+	// Database Name
+	private static final String DATABASE_NAME = "mydatabase";
+
+	// Table Name
+	private static final String TABLE_PRODUCT = "Products";
+		
+	public InventoryDB(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(DATABASE_CREATE);
+		// TODO Auto-generated method stub
+		// Create Table Name
+		db.execSQL("CREATE TABLE " + TABLE_PRODUCT
+				+ "(ItemID INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ " Name TEXT(100)," + " Quantity TEXT(100), " 
+				+ " Price TEXT(100)," + " Description TEXT(100));");
+
+		
+
 		Log.d("CREATE TABLE", "Create Table Successfully.");
 	}
 
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	// Insert Data
+	public long InsertData(String strItemID, String strName, String strQuantity, String strPrice) {
 		// TODO Auto-generated method stub
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY);
-		// Re Create on method onCreate
-		onCreate(db);
-	}
-	
-	public long InsertData(String strID, String strName, String strQuantity, String strPrice)
-	{
+
 		try {
 			SQLiteDatabase db;
 			db = this.getWritableDatabase(); // Write Data
 
+			/**
+			 * for API 11 and above SQLiteStatement insertCmd; String strSQL =
+			 * "INSERT INTO " + TABLE_MEMBER +
+			 * "(ItemID,Name,Quantity,Price) VALUES (?,?,?)";
+			 * 
+			 * insertCmd = db.compileStatement(strSQL); insertCmd.bindString(1,
+			 * strItemID); insertCmd.bindString(2, strName);
+			 * insertCmd.bindString(3, strTel); return
+			 * insertCmd.executeInsert();
+			 */
+
 			ContentValues Val = new ContentValues();
-			Val.put("ItemID", strID);
+			Val.put("ItemID", strItemID);
 			Val.put("Name", strName);
 			Val.put("Quantity", strQuantity);
 			Val.put("Price", strPrice);
-			long rows = db.insert(TABLE_INVENTORY, null, Val);
+			long rows = db.insert(TABLE_PRODUCT, null, Val);
 
 			db.close();
 			return rows; // return rows inserted.
@@ -66,8 +73,12 @@ public class InventoryDB extends SQLiteOpenHelper {
 		} catch (Exception e) {
 			return -1;
 		}
-	}
 
+	}
+		
+
+	// Select Data
+	@SuppressLint("NewApi")
 	public String[] SelectData(String strItemID) {
 		// TODO Auto-generated method stub
 
@@ -77,7 +88,7 @@ public class InventoryDB extends SQLiteOpenHelper {
 			SQLiteDatabase db;
 			db = this.getReadableDatabase(); // Read Data
 
-			Cursor cursor = db.query(false, TABLE_INVENTORY, new String[] { "*" },
+			Cursor cursor = db.query(false, TABLE_PRODUCT, new String[] { "*" },
 					"ItemID=?", new String[] { String.valueOf(strItemID) },
 					null, null, null, null);
 
@@ -85,14 +96,13 @@ public class InventoryDB extends SQLiteOpenHelper {
 				if (cursor.moveToFirst()) {
 					arrData = new String[cursor.getColumnCount()];
 					/***
-					 * 0 = ItemID , 1 = Name
-					 * 2 = Quantity , 3 = Price 
+					 * 0 = ItemID , 1 = Name 
+					 * 2 = Quantity , 3 = Price
 					 */
 					arrData[0] = cursor.getString(0);
 					arrData[1] = cursor.getString(1);
 					arrData[2] = cursor.getString(2);
 					arrData[3] = cursor.getString(3);
-					arrData[4] = cursor.getString(4);
 				}
 			}
 			cursor.close();
@@ -104,7 +114,43 @@ public class InventoryDB extends SQLiteOpenHelper {
 		}
 
 	}
+
 	
+
+	
+	// Delete Data
+	public long DeleteData(String strItemID) {
+		// TODO Auto-generated method stub
+
+		try {
+
+			SQLiteDatabase db;
+			db = this.getWritableDatabase(); // Write Data
+
+			/**
+			 * for API 11 and above SQLiteStatement insertCmd; String strSQL =
+			 * "DELETE FROM " + TABLE_PRODUCT + " WHERE ItemID = ? ";
+			 * 
+			 * insertCmd = db.compileStatement(strSQL); insertCmd.bindString(1,
+			 * strItemID);
+			 * 
+			 * return insertCmd.executeUpdateDelete();
+			 * 
+			 */
+
+			long rows = db.delete(TABLE_PRODUCT, "ItemID = ?",
+					new String[] { String.valueOf(strItemID) });
+
+			db.close();
+			return rows; // return rows deleted.
+
+		} catch (Exception e) {
+			return -1;
+		}
+
+	}
+		
+	// Show All Data
 	public ArrayList<HashMap<String, String>> SelectAllData() {
 		// TODO Auto-generated method stub
 
@@ -116,7 +162,7 @@ public class InventoryDB extends SQLiteOpenHelper {
 			SQLiteDatabase db;
 			db = this.getReadableDatabase(); // Read Data
 
-			String strSQL = "SELECT  * FROM " + TABLE_INVENTORY;
+			String strSQL = "SELECT  * FROM " + TABLE_PRODUCT;
 			Cursor cursor = db.rawQuery(strSQL, null);
 
 			if (cursor != null) {
@@ -140,7 +186,9 @@ public class InventoryDB extends SQLiteOpenHelper {
 		}
 
 	}
+	
 
+	// Update Data
 	public long UpdateData(String strItemID, String strName, String strQuantity, String strPrice) {
 		// TODO Auto-generated method stub
 
@@ -149,12 +197,24 @@ public class InventoryDB extends SQLiteOpenHelper {
 			SQLiteDatabase db;
 			db = this.getWritableDatabase(); // Write Data
 
+			/**
+			 * for API 11 and above SQLiteStatement insertCmd; String strSQL =
+			 * "UPDATE " + TABLE_MEMBER + " SET Name = ? " + " , Tel = ? " +
+			 * " WHERE ItemID = ? ";
+			 * 
+			 * insertCmd = db.compileStatement(strSQL); insertCmd.bindString(1,
+			 * strName); insertCmd.bindString(2, strTel);
+			 * insertCmd.bindString(3, strItemID);
+			 * 
+			 * return insertCmd.executeUpdateDelete();
+			 * 
+			 */
 			ContentValues Val = new ContentValues();
 			Val.put("Name", strName);
 			Val.put("Quantity", strQuantity);
 			Val.put("Price", strPrice);
 
-			long rows = db.update(TABLE_INVENTORY, Val, " ItemID = ?",
+			long rows = db.update(TABLE_PRODUCT, Val, " ItemID = ?",
 					new String[] { String.valueOf(strItemID) });
 
 			db.close();
@@ -166,7 +226,15 @@ public class InventoryDB extends SQLiteOpenHelper {
 
 	}
 
-	//Reduce items quantity upon purchase on checkout
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// TODO Auto-generated method stub
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT);
+		
+		// Re Create on method onCreate
+		onCreate(db);
+	}
+
 	public void reduceQuantity(String ID ,String name , int current , int purchase, String price)
 	{
 		int currentquan = current;
@@ -175,5 +243,6 @@ public class InventoryDB extends SQLiteOpenHelper {
 		String left2 = left+"";
 		UpdateData(ID, name, left2, price);
 	}
-	
+
+
 }
