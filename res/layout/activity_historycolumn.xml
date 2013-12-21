@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/ColDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.36"
+        android:text=" Date" />
+
+	<TextView
+	    android:id="@+id/ColName"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.88"
+	    android:text="Name" />
+
+	<TextView
+	    android:id="@+id/ColQuantity"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="Quantity" />
+
+	<TextView
+	    android:id="@+id/TotalPrice"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.20"
+	    android:text="Price"
+	    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</LinearLayout>
