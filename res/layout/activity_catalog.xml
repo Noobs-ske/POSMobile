@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Back to Inventory" />
+        android:text="Inventory" />
 
     <Button
         android:id="@+id/button6"

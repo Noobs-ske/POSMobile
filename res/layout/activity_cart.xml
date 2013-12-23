@@ -79,7 +79,7 @@
             <ListView
                 android:id="@+id/listView1"
                 android:layout_width="match_parent"
-                android:layout_height="374dp"
+                android:layout_height="381dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false" >
