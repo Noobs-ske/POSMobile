@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dao.InventoryDB;
+import domain.SaleListItem;
 
 
 import android.os.Bundle;
@@ -25,13 +26,14 @@ import android.widget.Toast;
 
 public class InventoryActivity extends Activity {
 	ArrayList<HashMap<String, String>> ItemList;
-	ArrayList<String> PurchaseList = new ArrayList<String>();
+	ArrayList<SaleListItem> purchaseList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inventory);
-		
+		Intent intent = this.getIntent();
+	  	purchaseList = intent.getParcelableArrayListExtra("PurchaseList");
 		// Call Show List All Data
 	     ShowListData();
 		
@@ -46,8 +48,7 @@ public class InventoryActivity extends Activity {
 						ProductCatalogActivity.class);
 
 			
-				  newActivity.putStringArrayListExtra("PurchaseList",PurchaseList); 
-				  PurchaseList = new ArrayList<String>();
+				  newActivity.putParcelableArrayListExtra("PurchaseList",purchaseList); 
 				 
 
 				startActivity(newActivity);
@@ -166,9 +167,9 @@ public class InventoryActivity extends Activity {
 						"Quantity", "Price" }, new int[] { R.id.ColItemID,
 						R.id.ColName, R.id.ColQuantity, R.id.TotalPrice });
 		
-		System.out.println(ItemList.get(0));
+//		System.out.println(ItemList.get(0));
 		lisView1.setAdapter(sAdap);
-//		registerForContextMenu(lisView1);
+		registerForContextMenu(lisView1);
 	}
 	
 }

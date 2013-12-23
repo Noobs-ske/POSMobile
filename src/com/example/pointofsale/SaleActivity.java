@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import dao.InventoryDB;
 import dao.SaleReportDB;
+import domain.SaleListItem;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,16 +31,17 @@ import android.widget.TextView;
 public class SaleActivity extends Activity {
 
 	private ArrayList<HashMap<String, String>> ItemList;
-	ArrayList<String> SaleList;
-	ArrayList<String> CartList = new ArrayList<String>();
+	ArrayList<SaleListItem> purchaseList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cart);
-		Intent intent = getIntent();
-		SaleList = intent.getStringArrayListExtra("PurchaseList");
-
-		ShowAllData();
+		Intent intent = this.getIntent();
+	  	purchaseList = intent.getParcelableArrayListExtra("PurchaseList");
+	  	
+	  	//Show data
+	  	ShowAllData();
+	  	
 		//back to catalog button
 				final Button btn_Catalog = (Button) findViewById(R.id.button2);
 				// Perform action on click
@@ -48,8 +50,9 @@ public class SaleActivity extends Activity {
 
 						Intent newActivity = new Intent(SaleActivity.this,
 								ProductCatalogActivity.class);
-						newActivity.putStringArrayListExtra("PurchaseList",
-								SaleList);
+						
+						newActivity.putParcelableArrayListExtra("PurchaseList",
+								purchaseList);
 						
 						startActivity(newActivity);
 						finish();
@@ -68,6 +71,9 @@ public class SaleActivity extends Activity {
 						Intent newActivity = new Intent(SaleActivity.this,
 								InventoryActivity.class);
 						
+						newActivity.putParcelableArrayListExtra("PurchaseList",
+								purchaseList);
+						
 						startActivity(newActivity);
 						finish();
 
@@ -84,22 +90,22 @@ public class SaleActivity extends Activity {
 		SimpleDateFormat asf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		String now = asf.format(c.getTime());
 		SaleReportDB reportDB = new SaleReportDB(this);
-		for(int i=0;i<SaleList.size();i++){
+		for(int i=0;i<purchaseList.size();i++){
 		reportDB.InsertData(id, now, name, quan, price);
 		}
 		
 	}
 	public void Checkout() {
 		InventoryDB myDb = new InventoryDB(this);
-		for (int i = 0; i < SaleList.size(); i++) {
-			String arrDataDB[] = myDb.SelectData(SaleList.get(i));
-			String arrDataSale[] = myDb.SelectData(SaleList.get(i));
+		for (int i = 0; i < purchaseList.size(); i++) {
+			String arrDataDB[] = myDb.SelectData(purchaseList.get(i).getProductID());
+			String arrDataSale[] = myDb.SelectData(purchaseList.get(i).getProductID());
 			saveTime(arrDataDB[1], arrDataDB[2], arrDataSale[2], "99");
 			myDb.reduceQuantity(arrDataDB[0] ,arrDataDB[1] , Integer.parseInt(arrDataDB[2]) 
 				 , Integer.parseInt(arrDataSale[2]), arrDataDB[3]);
-			myDb.DeleteData(SaleList.get(i));
+		//	myDb.DeleteData(purchaseList.get(i).getProductID());
 		}
-		SaleList = null;
+		purchaseList = new ArrayList<SaleListItem>();
 
 	}
 	
@@ -109,15 +115,14 @@ public class SaleActivity extends Activity {
 		ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map;
 
-		InventoryDB myDb = new InventoryDB(this);
-		for (int i = 0; i < SaleList.size(); i++) {
-			String arrData[] = myDb.SelectData(SaleList.get(i));
+		for (int i = 0; i < purchaseList.size(); i++) {
+			SaleListItem a = purchaseList.get(i);
 			map = new HashMap<String, String>();
-			map.put("ItemID2", arrData[0]);
-			map.put("Name", arrData[1]);
-			map.put("Quantity", arrData[2]);
-			map.put("Price", arrData[3]);
-			total += Double.parseDouble(arrData[2])*Double.parseDouble(arrData[3]) ;
+			map.put("ItemID", a.getProductID());
+			map.put("Name", a.getProductName());
+			map.put("Quantity", Integer.toString(a.getProductQuan()));
+			map.put("Price", Integer.toString(a.getProductPrice()));
+			total += Double.parseDouble(Integer.toString(a.getProductQuan()))*Double.parseDouble(Integer.toString(a.getProductPrice())) ;
 			MyArrList.add(map);
 		}
 		ItemList = MyArrList;
@@ -129,7 +134,7 @@ public class SaleActivity extends Activity {
 
 		SimpleAdapter sAdap;
 		sAdap = new SimpleAdapter(SaleActivity.this, ItemList,
-				R.layout.activity_cartcolumn, new String[] { "ItemID2",
+				R.layout.activity_cartcolumn, new String[] { "ItemID",
 						"Name","Quantity"}, new int[] { R.id.ColItemID, R.id.ColName,
 						R.id.ColQuantity});
 		lisView1.setAdapter(sAdap);
@@ -166,9 +171,9 @@ public class SaleActivity extends Activity {
 		if ("Delete".equals(CmdName)) {
 
 			ItemList.remove(ItemList.get(info.position));
-			for (int i = 0; i < SaleList.size(); i++) {
-				if (MemID.equals(SaleList.get(i))) {
-					SaleList.remove(i);
+			for (int i = 0; i < purchaseList.size(); i++) {
+				if (MemID.equals(purchaseList.get(i))) {
+					purchaseList.remove(i);
 				}
 			}
 			// Call Show Data again

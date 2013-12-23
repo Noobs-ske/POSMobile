@@ -3,8 +3,8 @@ package com.example.pointofsale;
 
 	import java.util.ArrayList;
 import java.util.HashMap;
-
 import dao.InventoryDB;
+import domain.SaleListItem;
 
 	
 	
@@ -24,22 +24,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 	public class ProductCatalogActivity extends Activity {
 
 		private ArrayList<HashMap<String, String>> ItemList;
-		ArrayList<String> PurchaseList = new ArrayList<String>();
-		private int PurchaseQuantity;
+		ArrayList<SaleListItem> purchaseList;
+		int PurchaseQuantity = 0;
+		
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_catalog);
 		  	ShowListData();
-		  	Intent intent = getIntent();
-		  	PurchaseList = intent.getStringArrayListExtra("PurchaseList");
+		  	Intent intent = this.getIntent();
+		  	purchaseList = intent.getParcelableArrayListExtra("PurchaseList");
+		  	if (purchaseList == null) purchaseList = new ArrayList<SaleListItem>();
 			//back to inventory button
 			final Button btn_Invntory = (Button) findViewById(R.id.button2);
+			
 			// Perform action on click
 			btn_Invntory.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
@@ -61,8 +65,8 @@ import android.widget.Toast;
 
 					Intent newActivity = new Intent(ProductCatalogActivity.this,SaleActivity
 							.class);
-					newActivity.putStringArrayListExtra("PurchaseList",
-							PurchaseList);
+					newActivity.putParcelableArrayListExtra("PurchaseList",
+							purchaseList);
 					
 					startActivity(newActivity);
 					finish();
@@ -84,7 +88,13 @@ import android.widget.Toast;
 		public void onCreateContextMenu(ContextMenu menu, View v,
 				ContextMenuInfo menuInfo) {
 				
-
+				final InventoryDB myDb = new InventoryDB(this);
+				AdapterView.AdapterContextMenuInfo info =
+			            (AdapterView.AdapterContextMenuInfo) menuInfo;
+				String ID = ItemList.get(info.position).get("ItemID").toString();
+			//	System.out.println(ID);
+				final String[] iteminfo = myDb.SelectData(ID);
+				
 		        AlertDialog.Builder alert = new AlertDialog.Builder(this);  
 
 		        alert.setTitle("Quantity");  
@@ -99,7 +109,39 @@ import android.widget.Toast;
 		        	
 		        	
 		        	try{
+		        	
+		        		
 		            PurchaseQuantity = Integer.parseInt(inputQuantity.getText().toString());
+		            //Create item
+	        		SaleListItem product = new SaleListItem(iteminfo[0], iteminfo[1],
+	        				PurchaseQuantity, Integer.parseInt(iteminfo[3]));
+	        		System.out.println(product.getProductName());
+	        		if(purchaseList == null) System.out.println("Yup");
+	        		//check if contain
+	        		 if(purchaseList.contains(product))
+	            		{
+	            	for (int i = 0; i < purchaseList.size(); i++)
+	            		if(purchaseList.get(i).getProductName().equals(product.getProductName()))
+	            			{
+	            			if(purchaseList.get(i).getProductQuan() + PurchaseQuantity
+	            					<= Integer.parseInt(iteminfo[2]))
+	            				purchaseList.get(i).setProductQuan(
+	            						purchaseList.get(i).getProductQuan() + PurchaseQuantity);
+	            			 else Toast.makeText(getBaseContext(),
+	     							"Not enough item in stock",
+	     							Toast.LENGTH_LONG).show();
+	            			}
+	            	
+	            		}
+	        		 // If not and enough item
+	        		 else if(!purchaseList.contains(product) && PurchaseQuantity<= Integer.parseInt(iteminfo[2]))
+		            	{
+	        			 purchaseList.add(product); 
+		            	}
+		            //Not and not enough item
+		            else Toast.makeText(getBaseContext(),
+							"Not enough item in stock",
+							Toast.LENGTH_LONG).show();
 		        	}
 		        	catch(Exception e){
 		        		Toast.makeText(getBaseContext(),
