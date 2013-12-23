@@ -116,33 +116,52 @@ import android.widget.Toast;
 		            //Create item
 	        		SaleListItem product = new SaleListItem(iteminfo[0], iteminfo[1],
 	        				PurchaseQuantity, Integer.parseInt(iteminfo[3]));
-	        		System.out.println(product.getProductName());
-	        		if(purchaseList == null) System.out.println("Yup");
-	        		//check if contain
-	        		 if(purchaseList.contains(product))
+	        	//	System.out.println(product.getProductName());
+	        	//	if(purchaseList == null) System.out.println("Yup");
+
+	        	//First item
+	        		if(purchaseList.size() == 0) {
+	        			if(PurchaseQuantity<= Integer.parseInt(iteminfo[2]))
 	            		{
-	            	for (int i = 0; i < purchaseList.size(); i++)
+	        			 purchaseList.add(product); 
+		            	}
+	        			
+	        			else Toast.makeText(getBaseContext(),
+								"Not enough item in stock",
+								Toast.LENGTH_LONG).show();
+	        		}
+	        		
+	        	//Check if item exists
+	        		else for (int i = 0; i < purchaseList.size(); i++)
+	            	{
+	        			//exists. check value then add if possible.
 	            		if(purchaseList.get(i).getProductName().equals(product.getProductName()))
 	            			{
 	            			if(purchaseList.get(i).getProductQuan() + PurchaseQuantity
 	            					<= Integer.parseInt(iteminfo[2]))
+	            				{
 	            				purchaseList.get(i).setProductQuan(
 	            						purchaseList.get(i).getProductQuan() + PurchaseQuantity);
-	            			 else Toast.makeText(getBaseContext(),
+	            				break;
+	            				}
+	            			 else { Toast.makeText(getBaseContext(),
 	     							"Not enough item in stock",
 	     							Toast.LENGTH_LONG).show();
+	            			 break;}
 	            			}
-	            	
-	            		}
-	        		 // If not and enough item
-	        		 else if(!purchaseList.contains(product) && PurchaseQuantity<= Integer.parseInt(iteminfo[2]))
-		            	{
+	            	//Does not exist. Add to list.
+	            		if(i == purchaseList.size() -1 && PurchaseQuantity<= Integer.parseInt(iteminfo[2]))
+	            		{
 	        			 purchaseList.add(product); 
+	        			 break;
 		            	}
-		            //Not and not enough item
-		            else Toast.makeText(getBaseContext(),
-							"Not enough item in stock",
-							Toast.LENGTH_LONG).show();
+	            		
+	            		//Not and not enough item
+			            else Toast.makeText(getBaseContext(),
+								"Not enough item in stock",
+								Toast.LENGTH_LONG).show();
+	            	}
+		            
 		        	}
 		        	catch(Exception e){
 		        		Toast.makeText(getBaseContext(),
