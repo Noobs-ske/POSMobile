@@ -113,22 +113,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dip" >
-
-        <TextView
-            android:id="@+id/textView6"
-            android:text="Desc"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/txtDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="left"
-            android:lines="4"
-            android:maxLines="4" >
-
-        </EditText>
     </TableRow>
     
    	<LinearLayout

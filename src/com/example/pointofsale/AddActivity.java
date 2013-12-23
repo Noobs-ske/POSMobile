@@ -24,7 +24,7 @@ public class AddActivity extends Activity {
 	private EditText tName;
 	private EditText tQuantity;
 	private EditText tPrice;
-	private EditText tDescription;
+//	private EditText tDescription;
 	
 	//Context context, String name, CursorFactory factory, int version
 	
@@ -36,7 +36,7 @@ public class AddActivity extends Activity {
 		tName = (EditText) findViewById(R.id.txtName);
 		tQuantity = (EditText) findViewById(R.id.txtQuantity);
 		tPrice = (EditText) findViewById(R.id.txtPrice);
-		tDescription = (EditText) findViewById(R.id.txtDescription);
+//		tDescription = (EditText) findViewById(R.id.txtDescription);
 		
 		// connect btnScan and txtResult to View
 		btnScan = (Button) findViewById(R.id.buttonScan);
@@ -58,17 +58,21 @@ public class AddActivity extends Activity {
 				String productName = tName.getText().toString();
 				String productQuan = tQuantity.getText().toString();
 				String productPrice = tPrice.getText().toString();
-				String productDescription = tDescription.getText().toString();
-				if (productDescription == null) productDescription = "";
+
+				if(myDb.SelectData(productID) != null || productName.length() <1 
+						|| productID.length() <1 || productQuan.length() <1 
+						|| productPrice.length() <1)
+					Toast.makeText(AddActivity.this, "Invalid. A field is missing or the Product ID is already in used.",
+							Toast.LENGTH_SHORT).show();
 				
-//			if (confirm.checkSaveData(productID,productName,productQuan,productPrice)) 
-//			{
+				else {
 				myDb.InsertData(productID, productName, productQuan, productPrice);
 				
 				Toast.makeText(AddActivity.this, "Add Data Successfully. ",
 						Toast.LENGTH_SHORT).show();
 				Intent newActivity = new Intent(AddActivity.this,InventoryActivity.class);
-				startActivity(newActivity);
+				startActivity(newActivity);}
+				
 			}
 //				else {ad.setMessage("Invalid. A field is missing or the Product ID is already in used."); ad.show();}
 

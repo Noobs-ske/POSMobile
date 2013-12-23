@@ -45,7 +45,7 @@ public class UpdateScreen extends Activity {
 			public void onClick(View v) {
 				// Open Form ListUpdate
 				Intent newActivity = new Intent(UpdateScreen.this,
-						ProductCatalogActivity.class);
+						InventoryActivity.class);
 				startActivity(newActivity);
 			}
 		});

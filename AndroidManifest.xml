@@ -39,7 +39,7 @@
             >
         </activity>
         <activity
-            android:name="com.example.mvcmobilepos.UpdateScreen"
+            android:name="com.example.pointofsale.UpdateScreen"
              >
         </activity>
     </application>
