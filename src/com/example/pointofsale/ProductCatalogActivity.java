@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 		private ArrayList<HashMap<String, String>> ItemList;
 		ArrayList<String> PurchaseList = new ArrayList<String>();
+		private int PurchaseQuantity;
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -79,123 +80,40 @@ import android.widget.Toast;
 			return true;
 		}
 		
-//		@Override
-//		public void onCreateContextMenu(ContextMenu menu, View v,
-//				ContextMenuInfo menuInfo) {
-//
-//			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//			menu.setHeaderTitle("Command for : "
-//					+ ItemList.get(info.position).get("Name").toString());
-//			String[] menuItems = getResources().getStringArray(R.array.CmdMenu);
-//			int i = 0;
-//				menu.add(Menu.NONE, i, i, menuItems[i]);
-//			
-//
-//		}
-//
-//		@Override
-//		public boolean onContextItemSelected(MenuItem item) {
-//			final InventoryDB myDb = new InventoryDB(this);
-//			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-//					.getMenuInfo();
-//			int menuItemIndex = item.getItemId();
-//			String[] menuItems = getResources().getStringArray(R.array.CmdMenu);
-//			String CmdName = menuItems[menuItemIndex];
-//			final String MemID = ItemList.get(info.position).get("ItemID").toString();
-//			final String MemName = ItemList.get(info.position).get("Name").toString();
-//			final String MemQuantity = ItemList.get(info.position).get("Quantity").toString();
-//			final String MemPrice = ItemList.get(info.position).get("Price").toString();
-//			// Check Event Command
-////			if ("Purchase".equals(CmdName)) {
-////				boolean check = true;
-////				for (int i = 0; i < PurchaseList.size(); i++) {
-////					if (PurchaseList.get(i).equals(MemID)) {
-////						check = false;
-////						break;
-////					}
-////
-////				}
-////				if (check){
-////					
-////
-////			        AlertDialog.Builder alert = new AlertDialog.Builder(this);  
-////
-////			        alert.setTitle("Quantity");  
-////			        alert.setMessage("Please input the number");  
-////
-////			        // Set an EditText view to get user input   
-////			        final EditText inputQuantity = new EditText(this);  
-////			        alert.setView(inputQuantity);  
-////
-////			        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {  
-////			        public void onClick(DialogInterface dialog, int whichButton) {  
-////			        	
-////			        	
-////			        	try{
-////			            PurchaseQuantity = Integer.parseInt(inputQuantity.getText().toString());
-////			           
-////			            int n = Integer.parseInt(MemQuantity)- PurchaseQuantity;
-////			        
-////			            String PurQuantity = PurchaseQuantity+""; 
-////			            if(PurchaseQuantity > Integer.parseInt(MemQuantity))
-////			            {
-////			            	Toast.makeText(getBaseContext(),
-////									"Not enough item in stock",
-////									Toast.LENGTH_LONG).show();
-////			            }
-////			            else {       
-////			            	PurchaseList.add(MemID);
-////
-////			            		myDb.InsertData2(MemID, MemName, PurQuantity, MemPrice);
-////			            		ShowListData();
-////			
-////			            	}
-////			            		
-////			            	
-////			        	}
-////			        	catch(Exception e){
-////			        		Toast.makeText(getBaseContext(),
-////									"INPUT THE NUMBER MORON !!",
-////									Toast.LENGTH_LONG).show();
-////			        	}
-////			          }  
-////			        }); 
-////			        
-////			        alert.setNegativeButton("Cancel", null );
-////
-////			        alert.show();
-////					
-////			        
-////				}
-////				else {
-////					Toast.makeText(ProductCatalogActivity.this,
-////							"You're already Purchase.", Toast.LENGTH_LONG).show();
-////				}
-////			}
-//
-//
-//				// for Delete Command
-////			 else if ("Delete".equals(CmdName)) {
-////
-//////				DBClass myDb = new DBClass(this);
-////
-////				long flg = myDb.DeleteData(MemID);
-////				if (flg > 0) {
-////					Toast.makeText(ProductCatalogActivity.this,
-////							"Delete Data Successfully", Toast.LENGTH_LONG).show();
-////				} else {
-////					Toast.makeText(ProductCatalogActivity.this, "Delete Data Failed.",
-////							Toast.LENGTH_LONG).show();
-////				}
-////
-////				// Call Show Data again
-////				ShowListData();
-////			}
-//
-//			return true;
-//		
-//		}
-		
+		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo) {
+				
+
+		        AlertDialog.Builder alert = new AlertDialog.Builder(this);  
+
+		        alert.setTitle("Quantity");  
+		        alert.setMessage("Please input the number");  
+
+		        // Set an EditText view to get user input   
+		        final EditText inputQuantity = new EditText(this);  
+		        alert.setView(inputQuantity);  
+
+		        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {  
+		        public void onClick(DialogInterface dialog, int whichButton) {  
+		        	
+		        	
+		        	try{
+		            PurchaseQuantity = Integer.parseInt(inputQuantity.getText().toString());
+		        	}
+		        	catch(Exception e){
+		        		Toast.makeText(getBaseContext(),
+								"Please input the number",
+								Toast.LENGTH_LONG).show();
+		        	}
+		          }  
+		        }); 
+		        
+		        alert.setNegativeButton("Cancel", null );
+
+		        alert.show();
+		}
+
 		public void ShowListData() {
 			final InventoryDB myDb = new InventoryDB(this);
 			ItemList = myDb.SelectAllData();
@@ -215,8 +133,4 @@ import android.widget.Toast;
 	}
 
 
-
-	// myDb.InsertData(tItemID.getText().toString(), tName
-	//.getText().toString(), tQuantity.getText().toString(), tPrice
-	//.getText().toString());
 
