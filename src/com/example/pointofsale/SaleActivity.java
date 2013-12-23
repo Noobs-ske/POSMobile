@@ -98,12 +98,15 @@ public class SaleActivity extends Activity {
 	public void Checkout() {
 		InventoryDB myDb = new InventoryDB(this);
 		for (int i = 0; i < purchaseList.size(); i++) {
-			String arrDataDB[] = myDb.SelectData(purchaseList.get(i).getProductID());
-			String arrDataSale[] = myDb.SelectData(purchaseList.get(i).getProductID());
-			saveTime(arrDataDB[1], arrDataDB[2], arrDataSale[2], "99");
+			SaleListItem item = purchaseList.get(i);
+			String ID = item.getProductID();
+			String name = item.getProductName();
+			int quan = item.getProductQuan();
+			int price = item.getProductPrice();
+			String arrDataDB[] = myDb.SelectData(ID);
+			//saveTime(arrDataDB[1], arrDataDB[2], arrDataSale[2], "99");
 			myDb.reduceQuantity(arrDataDB[0] ,arrDataDB[1] , Integer.parseInt(arrDataDB[2]) 
-				 , Integer.parseInt(arrDataSale[2]), arrDataDB[3]);
-		//	myDb.DeleteData(purchaseList.get(i).getProductID());
+				 , quan, arrDataDB[3]);
 		}
 		purchaseList = new ArrayList<SaleListItem>();
 

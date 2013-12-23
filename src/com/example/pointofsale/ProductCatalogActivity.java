@@ -50,7 +50,8 @@ import android.widget.Toast;
 
 					Intent newActivity = new Intent(ProductCatalogActivity.this,
 							InventoryActivity.class);
-					
+					newActivity.putParcelableArrayListExtra("PurchaseList",
+							purchaseList);
 					startActivity(newActivity);
 					finish();
 
