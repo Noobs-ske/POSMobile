@@ -24,6 +24,8 @@ public class InventoryDB extends SQLiteOpenHelper {
 	
 	// Table Name
 	private static final String TABLE_REPORT = "Reports";
+	
+	private InventoryDB idb;
 		
 	public InventoryDB(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -267,7 +269,7 @@ public class InventoryDB extends SQLiteOpenHelper {
 		try 
 		{
 			SQLiteDatabase db;
-			db = this.getWritableDatabase(); 
+			db = this.getInstance().getWritableDatabase(); 
 			
 			ContentValues Val = new ContentValues();
 			
@@ -277,7 +279,7 @@ public class InventoryDB extends SQLiteOpenHelper {
 			Val.put("Quantity",strQuantity);
 			Val.put("Price", strPrice);
 			
-			long rows = db.insert(DATABASE_NAME, null, Val);
+			long rows = db.insert(TABLE_REPORT, null, Val);
 
 			db.close();
 			return rows;
@@ -295,9 +297,9 @@ public class InventoryDB extends SQLiteOpenHelper {
 			String arrData[] = null;
 
 			SQLiteDatabase db;
-			db = this.getReadableDatabase();
+			db = this.getInstance().getReadableDatabase();
 			
-			Cursor cursor = db.query(false, DATABASE_NAME, new String[] { "*" },
+			Cursor cursor = db.query(false, TABLE_REPORT, new String[] { "*" },
 					"ItemID2=?", new String[] { String.valueOf(strItemID) },
 					null, null, null, null,null);
 			
@@ -334,7 +336,7 @@ public class InventoryDB extends SQLiteOpenHelper {
 			ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String> map;
 			SQLiteDatabase db;
-			db = this.getReadableDatabase();
+			db = this.getInstance().getReadableDatabase();
 			
 			String strSQL = "SELECT  * FROM " + TABLE_REPORT;
 			Cursor cursor = db.rawQuery(strSQL, null);
@@ -362,6 +364,11 @@ public class InventoryDB extends SQLiteOpenHelper {
 				return null;
 			}
 
+	}
+	
+	public InventoryDB getInstance(){
+		return null;
+		
 	}
 	
 }

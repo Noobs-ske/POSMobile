@@ -27,7 +27,7 @@ public class SaleReportActivity extends Activity {
 		Intent intent = this.getIntent();
 	  	purchaseList = intent.getParcelableArrayListExtra("PurchaseList");
 	  	
-	//	ShowAllData();
+		ShowAllData();
 		// Button1(BackButton)
 		final Button btn_Back = (Button) findViewById(R.id.button1);
 		// Perform action on click
@@ -48,13 +48,14 @@ public class SaleReportActivity extends Activity {
 
 	public void ShowAllData() {
 		final InventoryDB reportDB = new InventoryDB(this);
-
-		ItemList = reportDB.SelectAllReportData();
 		
+		ItemList = reportDB.SelectAllReportData();
+		if(ItemList != null){
 		// listView1
 		ListView lisView1 = (ListView) findViewById(R.id.listView2);
-
+	
 		SimpleAdapter sAdap;
+		
 		sAdap = new SimpleAdapter(SaleReportActivity.this, ItemList,
 				R.layout.activity_historycolumn, new String[] { "Date", "Name",
 						"Quantity", "Price" }, new int[] { R.id.ColDate,
@@ -62,7 +63,7 @@ public class SaleReportActivity extends Activity {
 		
 		lisView1.setAdapter(sAdap);
 		registerForContextMenu(lisView1);
-
+		}
 		
 	}
 	

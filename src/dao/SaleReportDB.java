@@ -23,6 +23,8 @@ public class SaleReportDB extends SQLiteOpenHelper
 	// Table Name
 	private static final String TABLE_REPORT = "Reports";
 	
+	private SaleReportDB srdb;
+	
 	public SaleReportDB(Context context) {
 		super(context, DATABASE_NAME2, null, DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
@@ -45,7 +47,7 @@ public class SaleReportDB extends SQLiteOpenHelper
 		try 
 		{
 			SQLiteDatabase db;
-			db = this.getWritableDatabase(); 
+			db = this.getInstance().getWritableDatabase(); 
 			ContentValues Val = new ContentValues();
 			
 			Val.put("Date", strSaleDate);
@@ -54,7 +56,7 @@ public class SaleReportDB extends SQLiteOpenHelper
 			Val.put("Quantity",strQuantity);
 			Val.put("Price", strPrice);
 			
-			long rows = db.insert(DATABASE_NAME2, null, Val);
+			long rows = db.insert(TABLE_REPORT, null, Val);
 
 			db.close();
 			return rows;
@@ -79,11 +81,13 @@ public class SaleReportDB extends SQLiteOpenHelper
 			String arrData[] = null;
 
 			SQLiteDatabase db;
-			db = this.getReadableDatabase();
+			db = this.getInstance().getReadableDatabase();
 			
-			Cursor cursor = db.query(false, DATABASE_NAME2, new String[] { "*" },
+			Cursor cursor = db.query(false, TABLE_REPORT, new String[] { "*" },
 					"ProductID=?", new String[] { String.valueOf(strItemID) },
 					null, null, null, null,null);
+			
+			//cursor = db.query("Reports",null, "ProductID = ?", new String[]{"*"}, null, null, null,null );
 			
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
@@ -118,7 +122,7 @@ public class SaleReportDB extends SQLiteOpenHelper
 			ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String> map;
 			SQLiteDatabase db;
-			db = this.getReadableDatabase();
+			db = this.getInstance().getReadableDatabase();
 			
 			String strSQL = "SELECT  * FROM " + TABLE_REPORT;
 			Cursor cursor = db.rawQuery(strSQL, null);
@@ -148,15 +152,8 @@ public class SaleReportDB extends SQLiteOpenHelper
 
 	}
 	
-//	public long UpdateData(String strID, String strSaleDate, String strName, String strPrice, String strQuantity) 
-//	{
-//		try 
-//		{
-//
-//			SQLiteDatabase db;
-//			db = this.getWritableDatabase();
-//			ContentValues Val = new ContentValues();
-//			
-//		}
-//	}
+public SaleReportDB getInstance(){
+	return srdb;
+	
+}
 }

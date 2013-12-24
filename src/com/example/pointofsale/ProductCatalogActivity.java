@@ -179,7 +179,7 @@ import android.widget.Toast;
 		public void ShowListData() {
 			final InventoryDB myDb = new InventoryDB(this);
 			ItemList = myDb.SelectAllData();
-
+			if(ItemList != null){
 			// listView1
 			ListView lisView1 = (ListView) findViewById(R.id.listView1);
 
@@ -190,6 +190,7 @@ import android.widget.Toast;
 							R.id.ColName, R.id.TotalPrice });
 			lisView1.setAdapter(sAdap);
 			registerForContextMenu(lisView1);
+			}
 		}
 
 	}
