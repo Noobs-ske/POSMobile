@@ -69,7 +69,7 @@ public class SaleActivity extends Activity {
 						Checkout();
 						
 						Intent newActivity = new Intent(SaleActivity.this,
-								InventoryActivity.class);
+								ProductCatalogActivity.class);
 						
 						newActivity.putParcelableArrayListExtra("PurchaseList",
 								purchaseList);
@@ -84,15 +84,13 @@ public class SaleActivity extends Activity {
 	}
 
 	@SuppressLint("SimpleDateFormat")
-	public void saveTime(String name, String id, String quan, String price){
+	public void saveTime(String id, String name, String quan, String price){
 		
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat asf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		String now = asf.format(c.getTime());
-		SaleReportDB reportDB = new SaleReportDB(this);
-		for(int i=0;i<purchaseList.size();i++){
-		reportDB.InsertData(id, now, name, quan, price);
-		}
+		InventoryDB reportDB = new InventoryDB(this);
+		reportDB.InsertReportData(id, now, name, quan, price);
 		
 	}
 	public void Checkout() {
@@ -104,9 +102,10 @@ public class SaleActivity extends Activity {
 			int quan = item.getProductQuan();
 			int price = item.getProductPrice();
 			String arrDataDB[] = myDb.SelectData(ID);
-			//saveTime(arrDataDB[1], arrDataDB[2], arrDataSale[2], "99");
 			myDb.reduceQuantity(arrDataDB[0] ,arrDataDB[1] , Integer.parseInt(arrDataDB[2]) 
-				 , quan, arrDataDB[3]);
+					 , quan, arrDataDB[3]);
+			saveTime(ID,name, Integer.toString(quan),  Integer.toString(price));
+			
 		}
 		purchaseList = new ArrayList<SaleListItem>();
 

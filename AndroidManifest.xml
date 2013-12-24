@@ -42,6 +42,7 @@
             android:name="com.example.pointofsale.UpdateScreen"
              >
         </activity>
+        <activity android:name="com.example.pointofsale.SaleReportActivity"> </activity>
     </application>
 
 </manifest>

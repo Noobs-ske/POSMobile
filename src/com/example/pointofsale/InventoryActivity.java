@@ -81,6 +81,8 @@ public class InventoryActivity extends Activity {
 				// Open History
 				Intent newActivity = new Intent(InventoryActivity.this,
 						SaleReportActivity.class);
+				  newActivity.putParcelableArrayListExtra("PurchaseList",purchaseList); 
+				  
 				startActivity(newActivity);
 
 			}
