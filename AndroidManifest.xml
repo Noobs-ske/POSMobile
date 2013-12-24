@@ -43,6 +43,7 @@
              >
         </activity>
         <activity android:name="com.example.pointofsale.SaleReportActivity"> </activity>
+        <activity android:name="com.example.pointofsale.SaveSaleActivity"> </activity>
     </application>
 
 </manifest>

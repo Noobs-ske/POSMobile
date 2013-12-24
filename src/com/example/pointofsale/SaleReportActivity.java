@@ -47,9 +47,10 @@ public class SaleReportActivity extends Activity {
 	}
 
 	public void ShowAllData() {
-		final InventoryDB reportDB = new InventoryDB(this);
+		final SaleReportDB reportDB = new SaleReportDB(this);
 		
-		ItemList = reportDB.SelectAllReportData();
+		ItemList = reportDB.SelectAllData();
+		if(ItemList == null) System.out.println("IS NULL");
 		if(ItemList != null){
 		// listView1
 		ListView lisView1 = (ListView) findViewById(R.id.listView2);

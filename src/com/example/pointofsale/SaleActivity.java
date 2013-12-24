@@ -32,6 +32,7 @@ public class SaleActivity extends Activity {
 
 	private ArrayList<HashMap<String, String>> ItemList;
 	ArrayList<SaleListItem> purchaseList;
+	ArrayList<SaleListItem> reportList = new ArrayList<SaleListItem>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,8 +70,10 @@ public class SaleActivity extends Activity {
 						Checkout();
 						
 						Intent newActivity = new Intent(SaleActivity.this,
-								ProductCatalogActivity.class);
+								SaveSaleActivity.class);
 						
+						newActivity.putParcelableArrayListExtra("ReportList",
+								reportList);
 						newActivity.putParcelableArrayListExtra("PurchaseList",
 								purchaseList);
 						
@@ -95,6 +98,7 @@ public class SaleActivity extends Activity {
 	}
 	public void Checkout() {
 		InventoryDB myDb = new InventoryDB(this);
+		reportList = purchaseList;
 		for (int i = 0; i < purchaseList.size(); i++) {
 			SaleListItem item = purchaseList.get(i);
 			String ID = item.getProductID();
@@ -104,7 +108,7 @@ public class SaleActivity extends Activity {
 			String arrDataDB[] = myDb.SelectData(ID);
 			myDb.reduceQuantity(arrDataDB[0] ,arrDataDB[1] , Integer.parseInt(arrDataDB[2]) 
 					 , quan, arrDataDB[3]);
-			saveTime(ID,name, Integer.toString(quan),  Integer.toString(price));
+		//	saveTime(ID,name, Integer.toString(quan),  Integer.toString(price));
 			
 		}
 		purchaseList = new ArrayList<SaleListItem>();
