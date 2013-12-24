@@ -1,0 +1,143 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:id="@+id/tableLayout1"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent" >
+ 
+   	<TableRow
+      android:id="@+id/tableRow1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="5dip" >
+     
+     <TextView
+        android:id="@+id/TotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Update Member : "
+        android:layout_span="3"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+   	        
+ 	</TableRow>
+ 		
+	  <View
+	      android:layout_height="1dip"
+	      android:background="#CCCCCC" />
+  
+   	<TableRow
+      android:id="@+id/tableRow2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="5dip" >
+
+      <TextView
+          android:id="@+id/textView2"
+          android:text="ItemID : "
+          android:textAppearance="?android:attr/textAppearanceMedium" />
+
+      <TextView
+          android:id="@+id/txtItemID"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="number" />
+
+	</TableRow>
+		
+   	<TableRow
+      android:id="@+id/tableRow3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="5dip" >
+
+	    <TextView
+	        android:id="@+id/textView3"
+	        android:text="Name : "
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <EditText
+	        android:id="@+id/txtName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:ems="10" >
+	    </EditText>	      
+
+	</TableRow>
+		
+   	<TableRow
+      android:id="@+id/tableRow4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="5dip" >
+
+	      <TextView
+	          android:id="@+id/textView4"
+	          android:text="Quantity : "
+	          android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	      <EditText
+	          android:id="@+id/txtQuantity"
+	          android:layout_width="wrap_content"
+	          android:layout_height="wrap_content"
+	          android:ems="10"
+	          android:inputType="number" >
+
+	      </EditText>
+
+	</TableRow>
+
+   	<TableRow
+   	    android:id="@+id/tableRow5"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content" 
+	    android:padding="5dip" >
+
+   		     <TextView
+	          android:id="@+id/textView5"
+	          android:text="Price"
+	          android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	      <EditText
+	          android:id="@+id/txtPrice"
+	          android:layout_width="wrap_content"
+	          android:layout_height="wrap_content"
+	          android:ems="10"
+	          android:inputType="number|numberDecimal" >
+
+	      </EditText>	      
+   		 
+   	</TableRow>
+   	
+<TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+    </TableRow>
+    
+   	<LinearLayout
+      android:id="@+id/LinearLayout1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="5dip" >
+
+     	<Button
+     	    android:id="@+id/btnSave"
+     	    android:layout_width="wrap_content"
+     	    android:layout_height="wrap_content"
+     	    android:text="Save" />
+     	<Button
+     	    android:id="@+id/btnCancel"
+     	    android:layout_width="wrap_content"
+     	    android:layout_height="wrap_content"
+     	    android:text="Cancel" />       
+
+	</LinearLayout>
+
+   	<TableRow
+   	    android:id="@+id/tableRow6"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content" >
+   	</TableRow>
+	
+</TableLayout>

@@ -4,10 +4,13 @@
     <string name="app_name">PointOfSale</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+
     <string-array name="CmdMenu">
         <item>Purchase</item>
         <item>Edit</item>
         <item>Delete</item>
     </string-array>
+
+    <string name="title_activity_updatesale_screen">UpdatesaleScreen</string>
 
 </resources>

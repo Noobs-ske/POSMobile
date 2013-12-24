@@ -169,7 +169,10 @@ public class SaleActivity extends Activity {
 		int menuItemIndex = item.getItemId();
 		String[] menuItems = getResources().getStringArray(R.array.CmdMenu);
 		String CmdName = menuItems[menuItemIndex];
-		final String MemID = ItemList.get(info.position).get("ItemID").toString();
+		String MemID = ItemList.get(info.position).get("ItemID").toString();
+		for(int i=0;i<ItemList.size();i++){
+		MemID = purchaseList.get(i).getProductID();
+		}
 //		final String MemName = ItemList.get(info.position).get("Name").toString();
 //		final String MemQuantity = ItemList.get(info.position).get("Quantity").toString();
 //		final String MemPrice = ItemList.get(info.position).get("Price").toString();
@@ -179,7 +182,7 @@ public class SaleActivity extends Activity {
 
 			// Show on new activity
 			Intent newActivity = new Intent(SaleActivity.this,
-					UpdateScreen.class);
+					UpdatesaleScreen.class);
 			newActivity.putExtra("MemID",
 					ItemList.get(info.position).get("ItemID").toString());
 			startActivity(newActivity);

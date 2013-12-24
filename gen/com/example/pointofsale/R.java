@@ -77,6 +77,7 @@ public final class R {
         public static final int activity_ok=0x7f03000a;
         public static final int activity_setting=0x7f03000b;
         public static final int activity_update=0x7f03000c;
+        public static final int activity_updatesale=0x7f03000d;
     }
     public static final class menu {
         public static final int add_screen=0x7f080000;
@@ -87,11 +88,13 @@ public final class R {
         public static final int main=0x7f080005;
         public static final int setting_screen=0x7f080006;
         public static final int update_screen=0x7f080007;
+        public static final int updatesale_screen=0x7f080008;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050002;
+        public static final int title_activity_updatesale_screen=0x7f050003;
     }
     public static final class style {
         /** 

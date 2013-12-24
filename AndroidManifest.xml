@@ -22,28 +22,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity
-            android:name="com.example.pointofsale.InventoryActivity"
-            >
+        <activity android:name="com.example.pointofsale.InventoryActivity" >
+        </activity>
+        <activity android:name="com.example.pointofsale.AddActivity" >
+        </activity>
+        <activity android:name="com.example.pointofsale.SaleActivity" >
+        </activity>
+        <activity android:name="com.example.pointofsale.SaleReportScreen" >
+        </activity>
+        <activity android:name="com.example.pointofsale.UpdateScreen" >
+        </activity>
+        <activity android:name="com.example.pointofsale.SaleReportActivity" >
+        </activity>
+        <activity android:name="com.example.pointofsale.SaveSaleActivity" >
         </activity>
         <activity
-            android:name="com.example.pointofsale.AddActivity"
-             >
+            android:name="com.example.pointofsale.UpdatesaleScreen"
+            android:label="@string/title_activity_updatesale_screen" >
         </activity>
-        <activity
-            android:name="com.example.pointofsale.SaleActivity"
-             >
-        </activity>
-        <activity
-            android:name="com.example.pointofsale.SaleReportScreen"
-            >
-        </activity>
-        <activity
-            android:name="com.example.pointofsale.UpdateScreen"
-             >
-        </activity>
-        <activity android:name="com.example.pointofsale.SaleReportActivity"> </activity>
-        <activity android:name="com.example.pointofsale.SaveSaleActivity"> </activity>
     </application>
 
 </manifest>
