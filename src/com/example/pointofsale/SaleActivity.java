@@ -158,7 +158,8 @@ public class SaleActivity extends Activity {
 		menu.setHeaderTitle("Command for : "
 				+ ItemList.get(info.position).get("Name").toString());
 		String[] menuItems = getResources().getStringArray(R.array.CmdMenu);
-		menu.add(Menu.NONE, 2, 2, menuItems[2]);
+		for(int i=1;i<3;i++)
+		menu.add(Menu.NONE, i, i, menuItems[i]);
 		// }
 	}
 
@@ -174,7 +175,18 @@ public class SaleActivity extends Activity {
 //		final String MemPrice = ItemList.get(info.position).get("Price").toString();
 		
 
-		if ("Delete".equals(CmdName)) {
+		 if ("Edit".equals(CmdName)) {
+
+			// Show on new activity
+			Intent newActivity = new Intent(SaleActivity.this,
+					UpdateScreen.class);
+			newActivity.putExtra("MemID",
+					ItemList.get(info.position).get("ItemID").toString());
+			startActivity(newActivity);
+
+			// for Delete Command
+		}
+		 else if ("Delete".equals(CmdName)) {
 
 			ItemList.remove(ItemList.get(info.position));
 			for (int i = 0; i < purchaseList.size(); i++) {
