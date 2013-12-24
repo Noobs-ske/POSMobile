@@ -32,9 +32,10 @@ public final class R {
         public static final int ColName=0x7f090017;
         public static final int ColQuantity=0x7f09001c;
         public static final int LinearLayout1=0x7f090011;
+        public static final int OKButton=0x7f090021;
         public static final int RelativeLayout1=0x7f090014;
         public static final int TotalPrice=0x7f090002;
-        public static final int action_settings=0x7f090021;
+        public static final int action_settings=0x7f090022;
         public static final int btnCancel=0x7f090013;
         public static final int btnSave=0x7f090012;
         public static final int button1=0x7f09001a;
@@ -73,8 +74,9 @@ public final class R {
         public static final int activity_historycolumn=0x7f030007;
         public static final int activity_inventory=0x7f030008;
         public static final int activity_main=0x7f030009;
-        public static final int activity_setting=0x7f03000a;
-        public static final int activity_update=0x7f03000b;
+        public static final int activity_ok=0x7f03000a;
+        public static final int activity_setting=0x7f03000b;
+        public static final int activity_update=0x7f03000c;
     }
     public static final class menu {
         public static final int add_screen=0x7f080000;
