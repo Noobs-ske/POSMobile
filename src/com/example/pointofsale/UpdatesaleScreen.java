@@ -60,6 +60,10 @@ public class UpdatesaleScreen extends Activity {
 						purchaseList.get(i).setProductQuan(Integer.parseInt(quan));
 						purchaseList.get(i).setProductPrice(Integer.parseInt(price));
 						
+						Toast.makeText(getBaseContext(),
+								"Sale adjustment complete",
+								Toast.LENGTH_LONG).show();
+						
 						Intent newActivity = new Intent(UpdatesaleScreen.this,
 								SaleActivity.class);
 						
