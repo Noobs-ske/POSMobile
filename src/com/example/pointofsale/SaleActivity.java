@@ -86,16 +86,17 @@ public class SaleActivity extends Activity {
 				
 	}
 
-	@SuppressLint("SimpleDateFormat")
-	public void saveTime(String id, String name, String quan, String price){
-		
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat asf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		String now = asf.format(c.getTime());
-		InventoryDB reportDB = new InventoryDB(this);
-		reportDB.InsertReportData(id, now, name, quan, price);
-		
-	}
+//	@SuppressLint("SimpleDateFormat")
+//	public void saveTime(String id, String name, String quan, String price){
+//		
+//		Calendar c = Calendar.getInstance();
+//		SimpleDateFormat asf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//		String now = asf.format(c.getTime());
+//		InventoryDB reportDB = new InventoryDB(this);
+//		reportDB.InsertReportData(id, now, name, quan, price);
+//		
+//	}
+	
 	public void Checkout() {
 		InventoryDB myDb = new InventoryDB(this);
 		reportList = purchaseList;
@@ -170,9 +171,9 @@ public class SaleActivity extends Activity {
 		String[] menuItems = getResources().getStringArray(R.array.CmdMenu);
 		String CmdName = menuItems[menuItemIndex];
 		String MemID = ItemList.get(info.position).get("ItemID").toString();
-		for(int i=0;i<ItemList.size();i++){
-		MemID = purchaseList.get(i).getProductID();
-		}
+//		for(int i=0;i<ItemList.size();i++){
+//		MemID = purchaseList.get(i).getProductID();
+//		}
 //		final String MemName = ItemList.get(info.position).get("Name").toString();
 //		final String MemQuantity = ItemList.get(info.position).get("Quantity").toString();
 //		final String MemPrice = ItemList.get(info.position).get("Price").toString();
@@ -183,6 +184,8 @@ public class SaleActivity extends Activity {
 			// Show on new activity
 			Intent newActivity = new Intent(SaleActivity.this,
 					UpdatesaleScreen.class);
+			newActivity.putParcelableArrayListExtra("PurchaseList",
+					purchaseList);
 			newActivity.putExtra("MemID",
 					ItemList.get(info.position).get("ItemID").toString());
 			startActivity(newActivity);
@@ -191,10 +194,10 @@ public class SaleActivity extends Activity {
 		}
 		 else if ("Delete".equals(CmdName)) {
 
-			ItemList.remove(ItemList.get(info.position));
 			for (int i = 0; i < purchaseList.size(); i++) {
-				if (MemID.equals(purchaseList.get(i))) {
+				if (MemID.equals(purchaseList.get(i).getProductID())) {
 					purchaseList.remove(i);
+					break;
 				}
 			}
 			// Call Show Data again

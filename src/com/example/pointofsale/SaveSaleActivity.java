@@ -50,8 +50,9 @@ ArrayList<SaleListItem> purchaseList;
 			String Name = product.getProductName();
 			int quan = product.getProductQuan();
 			int price = product.getProductPrice();
-			System.out.println("SAVING "  + Name);
-			myDb.InsertData(ID, now, Name, Integer.toString(quan), Integer.toString(price));
+			int total = price*quan;
+			String now2 = "On: " + now+ ", Sold: " + quan + " " + Name + " for " + price + " each for a total of " + total + " baht"; 
+			myDb.InsertData(now2, Name, Integer.toString(quan), Integer.toString(price));
 		}
 		reportList = new ArrayList<SaleListItem>();
 	}

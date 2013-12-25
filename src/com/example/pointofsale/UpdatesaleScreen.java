@@ -13,21 +13,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UpdatesaleScreen extends Activity {
 
 	ArrayList<SaleListItem> purchaseList;
+	SaleListItem item;
+	String MemID;
+	final InventoryDB myDb = new InventoryDB(this);
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_updatesale);
 		
-		Intent newActivity = null;	
-		
-		newActivity.putParcelableArrayListExtra("PurchaseList",
-				purchaseList);
 		// Read var from Intent
-		Intent intent = getIntent();
+		Intent intent = this.getIntent();
+		
+		purchaseList = intent.getParcelableArrayListExtra("PurchaseList");
 		final String MemID = intent.getStringExtra("MemID");
 		
 		// Show Data
@@ -37,12 +39,44 @@ public class UpdatesaleScreen extends Activity {
 		final Button save = (Button) findViewById(R.id.btnSave);
 		save.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// If Save Complete
-				if (MemID == purchaseList.get(0).getProductID()) {
-					// Open Form ListUpdate
-					Intent newActivity = new Intent(UpdatesaleScreen.this,
-							InventoryActivity.class);
-					startActivity(newActivity);
+				
+
+				final TextView tItemID = (TextView) findViewById(R.id.txtItemID);
+				final EditText tName = (EditText) findViewById(R.id.txtName);
+				final EditText tQuantity = (EditText) findViewById(R.id.txtQuantity);
+				final EditText tPrice = (EditText) findViewById(R.id.txtPrice);
+				
+				String quan = tQuantity.getText().toString();
+				String price = tPrice.getText().toString();
+
+				//Try to find the item that needs to be saved
+				for(int i = 0; i < purchaseList.size(); i++)
+				{
+					if(purchaseList.get(i).getProductID().equals(MemID))
+					{
+						final String[] iteminfo = myDb.SelectData(MemID);
+						
+						if(Integer.parseInt(quan) <= Integer.parseInt(iteminfo[2])){
+						purchaseList.get(i).setProductQuan(Integer.parseInt(quan));
+						purchaseList.get(i).setProductPrice(Integer.parseInt(price));
+						
+						Intent newActivity = new Intent(UpdatesaleScreen.this,
+								SaleActivity.class);
+						
+						newActivity.putParcelableArrayListExtra("PurchaseList",
+								purchaseList);
+						
+						startActivity(newActivity);
+						finish();
+						break;
+						}
+						
+						else {Toast.makeText(getBaseContext(),
+								"Not enough item in stock",
+								Toast.LENGTH_LONG).show();
+						break;}
+							
+					}
 				}
 			}
 		});
@@ -50,34 +84,43 @@ public class UpdatesaleScreen extends Activity {
 		// btnCancel (Cancel)
 		final Button cancel = (Button) findViewById(R.id.btnCancel);
 		cancel.setOnClickListener(new View.OnClickListener() {
+			
 			public void onClick(View v) {
-				// Open Form ListUpdate
 				Intent newActivity = new Intent(UpdatesaleScreen.this,
-						InventoryActivity.class);
+						SaleActivity.class);
+				newActivity.putParcelableArrayListExtra("PurchaseList",
+						purchaseList);
 				startActivity(newActivity);
+				
 			}
 		});
 
 	}
 
 	public void ShowData(String MemID) {
-		// txtMemberID, txtName, txtTel, txtDesc
+	//	ArrayList<SaleListItem> purchaseList2 = purchaseList;
+
+		
 		final TextView tItemID = (TextView) findViewById(R.id.txtItemID);
 		final EditText tName = (EditText) findViewById(R.id.txtName);
 		final EditText tQuantity = (EditText) findViewById(R.id.txtQuantity);
 		final EditText tPrice = (EditText) findViewById(R.id.txtPrice);
 		
-		// new Class DB
-		final InventoryDB myDb = new InventoryDB(this);
+		
+		for(int i = 0; i < purchaseList.size(); i++)
+		{
+			if(purchaseList.get(i).getProductID().equals(MemID))
+			{
+				item = purchaseList.get(i);
+				break;
+			}
+		}
 
 		// Show Data
-		String arrData[] = myDb.SelectData(MemID);
-		if (arrData != null) {
-			tItemID.setText(arrData[0]);
-			tName.setText(arrData[1]);
-			tQuantity.setText(arrData[2]);
-			tPrice.setText(arrData[3]);
-		}
+			tItemID.setText(item.getProductID());
+			tName.setText(item.getProductName());
+			tQuantity.setText(Integer.toString(item.getProductQuan()));
+			tPrice.setText(Integer.toString(item.getProductPrice()));
 
 	}
 }

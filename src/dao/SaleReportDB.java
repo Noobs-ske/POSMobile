@@ -32,8 +32,8 @@ public class SaleReportDB extends SQLiteOpenHelper
 		// TODO Auto-generated method stub
 		// Create Table Name
 		db.execSQL("CREATE TABLE " + TABLE_REPORT
-				+ "(ItemID INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ " Date TEXT(100),"
+			//	+ "(ItemID INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ " (Date TEXT(100),"
 				+ " Name TEXT(100),"
 				+ " Quantity TEXT(100), " 
 				+ " Price TEXT(100));");
@@ -48,7 +48,7 @@ public class SaleReportDB extends SQLiteOpenHelper
 		onCreate(db);
 	}
 	
-	public long InsertData(String strItemID, String strDate, String strName, String strQuantity, String strPrice) {
+	public long InsertData(String strDate, String strName, String strQuantity, String strPrice) {
 		// TODO Auto-generated method stub
 
 		try {
@@ -67,7 +67,7 @@ public class SaleReportDB extends SQLiteOpenHelper
 			 */
 
 			ContentValues Val = new ContentValues();
-			Val.put("ItemID", strItemID);
+			//Val.put("ItemID", strItemID);
 			Val.put("Date" , strDate);
 			Val.put("Name", strName);
 			Val.put("Quantity", strQuantity);
@@ -102,11 +102,11 @@ public class SaleReportDB extends SQLiteOpenHelper
 					if (cursor.moveToFirst()) {
 						do {
 							map = new HashMap<String, String>();
-							map.put("ItemID", cursor.getString(0));
-							map.put("Date", cursor.getString(1));
-							map.put("Name", cursor.getString(2));
-							map.put("Quantity", cursor.getString(3));
-							map.put("Price", cursor.getString(4));
+				//			map.put("ItemID", cursor.getString(0));
+							map.put("Date", cursor.getString(0));
+							map.put("Name", cursor.getString(1));
+							map.put("Quantity", cursor.getString(2));
+							map.put("Price", cursor.getString(3));
 							MyArrList.add(map);
 						} while (cursor.moveToNext());
 					}
